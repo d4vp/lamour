@@ -206,6 +206,67 @@
 	    canvas.width = canvasWidth;
 	    canvas.height = canvasHeight;
 	}
+
+	// Define la función que dibuja el corazón
+	function drawHeart() {
+	    // Define la posición inicial del corazón
+	    var x = canvas.width - 100;
+	    var y = 300;
+	
+	    // Define el color del corazón
+	    ctx.fillStyle = "#FF0000"; // Color rojo
+	
+	    // Dibuja el corazón
+	    ctx.beginPath();
+	    ctx.moveTo(x, y);
+	    ctx.lineTo(x + 50, y - 25);
+	    ctx.lineTo(x + 100, y);
+	    ctx.lineTo(x + 50, y + 25);
+	    ctx.closePath();
+	    ctx.fill();
+	}
+	
+	// Define la función que dibuja el avión
+	function drawPlane() {
+	    // Define la posición inicial del avión
+	    var x = canvas.width - 100;
+	    var y = 300;
+	
+	    // Define el color del avión
+	    ctx.fillStyle = "#000000"; // Color negro
+	
+	    // Dibuja el avión
+	    ctx.beginPath();
+	    ctx.moveTo(x, y);
+	    ctx.lineTo(x + 20, y - 10);
+	    ctx.lineTo(x + 40, y);
+	    ctx.lineTo(x + 20, y + 10);
+	    ctx.closePath();
+	    ctx.fill();
+	}
+	
+	// Define la función que dibuja el corazón a la derecha
+	function drawDottedHeart() {
+	    // Llama a la función que dibuja el corazón
+	    drawHeart();
+	
+	    // Llama a la función que dibuja la línea punteada
+	    drawDottedLine(canvas.width - 100, 300, canvas.width - 50, 300);
+	}
+	
+	// Define la función que dibuja el avión dibujando el corazón
+	function drawPlaneDrawingHeart() {
+	    // Llama a la función que dibuja el avión
+	    drawPlane();
+	
+	    // Llama a la función que dibuja el corazón a la derecha
+	    drawDottedHeart();
+	}
+
+	// Dibuja el avión dibujando el corazón
+	drawPlaneDrawingHeart();
+
+
 	
 	// Llama a la función de redimensionamiento cuando cambia el tamaño de la ventana
 	window.addEventListener("resize", resizeCanvas);
