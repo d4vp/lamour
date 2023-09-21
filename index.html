@@ -179,38 +179,38 @@
             ctx.fill();
             ctx.closePath();
         }
+	    
+        // Define la relación de aspecto deseada
+	var aspectRatio = 16 / 9; // Ejemplo: 16:9
 	
-
-	// Define la relación de aspecto deseada
-        var aspectRatio = 16 / 9; // Ejemplo: 16:9
-
-        // Ajusta el tamaño del canvas para que ocupe la pantalla completa
-        function resizeCanvas() {
-            var windowWidth = window.innerWidth;
-            var windowHeight = window.innerHeight;
-
-            // Calcula el ancho y alto del canvas según la relación de aspecto
-            var canvasWidth, canvasHeight;
-
-            if (windowWidth / windowHeight > aspectRatio) {
-                // Ventana más ancha, ajusta la altura
-                canvasHeight = windowHeight;
-                canvasWidth = windowHeight * aspectRatio;
-            } else {
-                // Ventana más alta o igual, ajusta el ancho
-                canvasWidth = windowWidth;
-                canvasHeight = windowWidth / aspectRatio;
-            }
-
-            canvas.width = canvasWidth;
-            canvas.height = canvasHeight;
-        }
-
-        // Llama a la función de redimensionamiento cuando cambia el tamaño de la ventana
-        window.addEventListener("resize", resizeCanvas);
-
-        // Inicializa el tamaño del canvas
-        resizeCanvas();
+	// Ajusta el tamaño del canvas para que ocupe la pantalla completa
+	function resizeCanvas() {
+	    var windowWidth = window.innerWidth;
+	    var windowHeight = window.innerHeight;
+	
+	    // Calcula el ancho y alto del canvas según la relación de aspecto
+	    var canvasWidth, canvasHeight;
+	
+	    if (windowWidth / windowHeight > aspectRatio) {
+	        // Ventana más ancha, ajusta la altura
+	        canvasHeight = windowHeight;
+	        canvasWidth = windowHeight * aspectRatio;
+	    } else {
+	        // Ventana más alta o igual, ajusta el ancho
+	        canvasWidth = windowWidth;
+	        canvasHeight = windowWidth / aspectRatio;
+	    }
+	
+	    // Establece el tamaño del canvas
+	    canvas.width = canvasWidth;
+	    canvas.height = canvasHeight;
+	}
+	
+	// Llama a la función de redimensionamiento cuando cambia el tamaño de la ventana
+	window.addEventListener("resize", resizeCanvas);
+	
+	// Inicializa el tamaño del canvas
+	resizeCanvas();
 
         // Inicia la animación
         draw();
