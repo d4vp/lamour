@@ -14,8 +14,10 @@
 
         /* Estilos para el control de audio */
         audio {
-            display: block;
-            margin: 20px auto;
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            z-index: 1; /* Asegura que el control de audio esté encima del canvas */
         }
     </style>
 </head>
