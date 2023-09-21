@@ -244,6 +244,26 @@
 	    ctx.closePath();
 	    ctx.fill();
 	}
+
+	    function drawDottedLine(x1, y1, x2, y2) {
+		    // Define la longitud de cada punto
+		    var dotLength = 10;
+		
+		    // Define la posición inicial del lápiz
+		    var x = x1;
+		    var y = y1;
+		
+		    // Dibuja una línea punteada
+		    while (x < x2) {
+			ctx.beginPath();
+			ctx.moveTo(x, y);
+			ctx.lineTo(x + dotLength, y);
+			ctx.closePath();
+			ctx.stroke();
+			x += dotLength * 2;
+		    }
+		}
+
 	
 	// Define la función que dibuja el corazón a la derecha
 	function drawDottedHeart() {
