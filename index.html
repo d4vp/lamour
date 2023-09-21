@@ -24,17 +24,30 @@
             border-radius: 5px; /* Bordes redondeados */
             z-index: 1;
         }
+
+        section {
+            text-align: center; /* Centra el contenido horizontalmente */
+            font-size: 10pt; /* Tamaño de letra pequeño */
+            margin-top: 20px; /* Espacio superior */
+        }
+
+        /* Estilos para el aviso de derechos de autor */
+        .copyright {
+            font-size: 8pt; /* Tamaño de letra más pequeño para el aviso de derechos de autor */
+            color: #999; /* Color de texto gris */
+            margin-top: 10px; /* Espacio superior */
+        }
     </style>
 </head>
 <body>
-    <canvas id="girasolCanvas" width="400" height="400"></canvas>
+    <canvas id="girasolCanvas" width="400" height="400"></canvas><br><br>
     
     <audio controls autoplay>
         <source src="flor.mp3" type="audio/mpeg">
         Tu navegador no soporta la reproducción de audio.
     </audio>
 
-    <section>
+    <section style="font-size:10pts">
         <h3>Bienvenida Primavera</h3>
         <br><br>
         <p>
@@ -73,11 +86,13 @@
         </p>
         <br><br><br>
         
-        <p>
-            Poema publicado en el libro "Retrato de mujer"<br>
-            Todos los derechos reservados.<br>
-            Copyright ©14/09/2010 by Arjona Delia<br>
-        </p>
+        <div class="copyright">
+            <p>
+                Poema publicado en el libro "Retrato de mujer"<br>
+                Todos los derechos reservados.<br>
+                Copyright © 14/09/2010 by Arjona Delia<br>
+            </p>
+        </div>
     </section>
 
     <script>
