@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>l'amour</title>
+    <style>
+        /* Estilos para el canvas en pantallas de teléfono */
+        @media (max-width: 480px) {
+            canvas {
+                width: 100%;
+                height: auto;
+                max-width: 400px;
+                max-height: 400px;
+                display: block;
+                margin: 0 auto;
+            }
+        }
+
+        /* Estilos para el control de audio */
+        audio {
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="girasolCanvas" width="400" height="400"></canvas>
+    <audio controls>
+        <source src="https://www.youtube.com/watch?v=gv63CGCx6vg" type="audio/mpeg">
+        Tu navegador no soporta la reproducción de audio.
+    </audio>
+
+    <script>
+        var canvas = document.getElementById("girasolCanvas");
+        var ctx = canvas.getContext("2d");
+
+        // Variables para la animación
+        var cloudX1 = 0; // Posición inicial de la primera nube
+        var cloudX2 = 200; // Posición inicial de la segunda nube
+        var leafY = 370; // Posición vertical inicial de la hoja
+        var leafDirection = 1; // Dirección de movimiento de la hoja
+        var petalAngle = 0; // Ángulo inicial de los pétalos
+
+        // Variables para puntos en el centro
+        var numPecas = 50;
+        var centerRadius = 20; // Radio del círculo del centro
+        var angleIncrement = (Math.PI * 2) / numPecas;
+        var puntosCentro = [];
+
+        for (var i = 0; i < numPecas; i++) {
+            var angle = i * angleIncrement;
+            var distance = Math.random() * centerRadius;
+            var x = 200 + Math.cos(angle) * distance;
+            var y = 300 + Math.sin(angle) * distance;
+            var radius = Math.random() * 2 + 1;
+            puntosCentro.push({ x, y, radius });
+        }
+
+        function draw() {
+            // Dibuja el fondo
+            ctx.fillStyle = "#87CEEB"; // Color cielo
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Dibuja las nubes en movimiento
+            drawCloud(cloudX1, 50, 80);
+            drawCloud(cloudX2, 100, 60);
+
+            // Dibuja el tallo hacia abajo
+            ctx.fillStyle = "#228B22"; // Color verde
+            ctx.fillRect(195, 340, 10, 100);
+
+            // Dibuja dos hojas a cada lado del girasol
+            drawLeaf(200, 215, 280, leafY, leafDirection); // Hoja derecha
+
+            // Dibuja el centro del girasol (café)
+            ctx.beginPath();
+            ctx.arc(200, 300, 40, 0, Math.PI * 2);
+            ctx.fillStyle = "#8B4513"; // Color café
+            ctx.fill();
+            ctx.closePath();
+
+            // Dibuja los puntos en el centro sin moverlos
+            ctx.fillStyle = "#000000"; // Color negro (pecas)
+            for (var i = 0; i < puntosCentro.length; i++) {
+                var punto = puntosCentro[i];
+                ctx.beginPath();
+                ctx.arc(punto.x, punto.y, punto.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.closePath();
+            }
+
+            // Dibuja los pétalos del girasol más cerca del centro
+            ctx.fillStyle = "#FFD700"; // Color amarillo
+            var numPetals = 12;
+            var angleIncrement = (Math.PI * 2) / numPetals;
+            var petalLength = 40; // Longitud reducida de los pétalos
+            var petalWidth = 15; // Ancho reducido de los pétalos
+
+            for (var i = 0; i < numPetals; i++) {
+                var angle = i * angleIncrement + petalAngle;
+                var cosAngle = Math.cos(angle);
+                var sinAngle = Math.sin(angle);
+
+                var x = 200 + cosAngle * petalLength;
+                var y = 300 + sinAngle * petalLength;
+
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
+
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.quadraticCurveTo(-10, -20, 0, -40);
+                ctx.quadraticCurveTo(10, -20, 0, 0);
+                ctx.closePath();
+
+                ctx.fill();
+                ctx.restore();
+            }
+
+            // Actualiza las variables de animación
+            cloudX1 += 0.2; // Mueve la primera nube hacia la derecha
+            cloudX2 += 0.3; // Mueve la segunda nube hacia la derecha
+            leafY += 0.2 * leafDirection; // Mueve la hoja arriba o abajo
+            if (leafY >= 390 || leafY <= 370) {
+                leafDirection *= -1; // Cambia la dirección de movimiento de la hoja
+            }
+            petalAngle += 0.005; // Hace que los pétalos giren suavemente
+
+            // Solicita la próxima animación
+            requestAnimationFrame(draw);
+
+		// Dibuja los pétalos del girasol más cerca del centro
+		ctx.fillStyle = "#FFD700"; // Color amarillo
+		var numPetals = 18; // Número de pétalos
+		var angleIncrement = (Math.PI * 2) / numPetals;
+		var petalLength = 40; // Longitud de los pétalos
+		var petalWidth = 15; // Ancho de los pétalos
+
+		for (var i = 0; i < numPetals; i++) {
+    			var angle = i * angleIncrement + petalAngle;
+    			var cosAngle = Math.cos(angle);
+    			var sinAngle = Math.sin(angle);
+
+    			var x = 200 + cosAngle * petalLength;
+    			var y = 300 + sinAngle * petalLength;
+
+    			ctx.save();
+    			ctx.translate(x, y);
+    			ctx.rotate(angle);
+
+    			ctx.beginPath();
+    			ctx.moveTo(0, 0);
+    			ctx.quadraticCurveTo(-10, -20, 0, -40);
+    			ctx.quadraticCurveTo(10, -20, 0, 0);
+    			ctx.closePath();
+
+    			ctx.fillStyle = "#FFD700"; // Color amarillo
+    			ctx.fill();
+    			ctx.restore();
+		}
+
+  }
+
+
+        function drawCloud(x, y, radius) {
+            ctx.fillStyle = "#FFFFFF"; // Color blanco
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.arc(x + 30, y - 30, radius + 10, 0, Math.PI * 2);
+            ctx.arc(x + 60, y, radius, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function drawLeaf(startX, endX, x, y, direction) {
+            ctx.fillStyle = "#228B22"; // Color verde
+            ctx.beginPath();
+            ctx.moveTo(startX, y);
+            ctx.quadraticCurveTo(startX + 10, y + 30 * direction, x, y);
+            ctx.quadraticCurveTo(startX + 10, y + 20 * direction, startX, y);
+            ctx.fill();
+            ctx.closePath();
+        }
+      
+        // Inicia la animación
+        draw();
+    </script>
+</body>
+</html>
+
