@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>https://github.com/d4vp/lamour/blob/main/index.html
+<html>
 <head>
-    <title>l'amour  <3</title>
+    <title>Campo de Girasoles</title>
     <style>
+        /* Estilos para el canvas que ocupará la pantalla completa */
         canvas {
             position: absolute;
             top: 0;
@@ -11,6 +12,8 @@
             height: auto; /* Permitirá que la altura se ajuste automáticamente */
             max-height: 100vh; /* Limita la altura al tamaño de la ventana */
         }
+
+        /* Estilos para el control de audio */
         audio {
             display: block;
             margin: 20px auto;
@@ -18,8 +21,7 @@
     </style>
 </head>
 <body>
-    <canvas id="girasolCanvas" width="400" height="360" position="relative" margin="0 auto"></canvas>
-	
+    <canvas id="girasolCanvas" width="400" height="400"></canvas>
     <audio controls autoplay>
         <source src="flor.mp3" type="audio/mpeg">
         Tu navegador no soporta la reproducción de audio.
@@ -28,6 +30,7 @@
     <script>
         var canvas = document.getElementById("girasolCanvas");
         var ctx = canvas.getContext("2d");
+        var sunflowers = []; // Almacenará la posición de cada girasol
 
         // Variables para la animación
         var cloudX1 = 0; // Posición inicial de la primera nube
@@ -36,50 +39,34 @@
         var leafDirection = 1; // Dirección de movimiento de la hoja
         var petalAngle = 0; // Ángulo inicial de los pétalos
 
-        // Variables para puntos en el centro
-        var numPecas = 50;
-        var centerRadius = 20; // Radio del círculo del centro
-        var angleIncrement = (Math.PI * 2) / numPecas;
-        var puntosCentro = [];
-
-        for (var i = 0; i < numPecas; i++) {
-            var angle = i * angleIncrement;
-            var distance = Math.random() * centerRadius;
-            var x = 200 + Math.cos(angle) * distance;
-            var y = 300 + Math.sin(angle) * distance;
-            var radius = Math.random() * 2 + 1;
-            puntosCentro.push({ x, y, radius });
-        }
-
-        function draw() {
-            // Dibuja el fondo
-            ctx.fillStyle = "#87CEEB"; // Color cielo
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Dibuja las nubes en movimiento
-            drawCloud(cloudX1, 50, 80);
-            drawCloud(cloudX2, 100, 60);
-
+        // Función para dibujar un girasol
+        function drawSunflower(x, y) {
             // Dibuja el tallo hacia abajo
             ctx.fillStyle = "#228B22"; // Color verde
-            ctx.fillRect(195, 340, 10, 100);
+            ctx.fillRect(x + 15, y + 60, 10, 100);
 
             // Dibuja dos hojas a cada lado del girasol
-            drawLeaf(200, 215, 280, leafY, leafDirection); // Hoja derecha
+            drawLeaf(x + 20, x - 5, x + 35, y + 95, leafDirection); // Hoja derecha
+            drawLeaf(x + 30, x + 55, x + 40, y + 95, leafDirection); // Hoja izquierda
 
             // Dibuja el centro del girasol (café)
             ctx.beginPath();
-            ctx.arc(200, 300, 40, 0, Math.PI * 2);
+            ctx.arc(x + 30, y + 70, 20, 0, Math.PI * 2);
             ctx.fillStyle = "#8B4513"; // Color café
             ctx.fill();
             ctx.closePath();
 
             // Dibuja los puntos en el centro sin moverlos
             ctx.fillStyle = "#000000"; // Color negro (pecas)
-            for (var i = 0; i < puntosCentro.length; i++) {
-                var punto = puntosCentro[i];
+            var numPecas = 10;
+            for (var i = 0; i < numPecas; i++) {
+                var angle = (i / numPecas) * Math.PI * 2;
+                var distance = Math.random() * 15;
+                var pecaX = x + 30 + Math.cos(angle) * distance;
+                var pecaY = y + 70 + Math.sin(angle) * distance;
+                var radius = Math.random() * 2 + 1;
                 ctx.beginPath();
-                ctx.arc(punto.x, punto.y, punto.radius, 0, Math.PI * 2);
+                ctx.arc(pecaX, pecaY, radius, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.closePath();
             }
@@ -96,11 +83,11 @@
                 var cosAngle = Math.cos(angle);
                 var sinAngle = Math.sin(angle);
 
-                var x = 200 + cosAngle * petalLength;
-                var y = 300 + sinAngle * petalLength;
+                var petalX = x + 30 + cosAngle * petalLength;
+                var petalY = y + 70 + sinAngle * petalLength;
 
                 ctx.save();
-                ctx.translate(x, y);
+                ctx.translate(petalX, petalY);
                 ctx.rotate(angle);
 
                 ctx.beginPath();
@@ -112,6 +99,82 @@
                 ctx.fill();
                 ctx.restore();
             }
+        }
+
+        // Función para dibujar una hoja
+        function drawLeaf(startX, endX, x, y, direction) {
+            ctx.fillStyle = "#228B22"; // Color verde
+            ctx.beginPath();
+            ctx.moveTo(startX, y);
+            ctx.quadraticCurveTo(startX + 10, y + 30 * direction, x, y);
+            ctx.quadraticCurveTo(startX + 10, y + 20 * direction, startX, y);
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        // Crea posiciones aleatorias para los girasoles en el campo
+        function createSunflowers() {
+            for (var i = 0; i < 10; i++) {
+                var x = Math.random() * (canvas.width - 100);
+                var y = Math.random() * (canvas.height - 200);
+                sunflowers.push({ x, y });
+            }
+        }
+
+        // Dibuja los girasoles en el campo
+        function drawSunflowers() {
+            sunflowers.forEach(function (sunflower) {
+                drawSunflower(sunflower.x, sunflower.y);
+            });
+        }
+
+        // Define la relación de aspecto deseada
+        var aspectRatio = 16 / 9; // Ejemplo: 16:9
+
+        // Ajusta el tamaño del canvas para que ocupe la pantalla completa
+        function resizeCanvas() {
+            var windowWidth = window.innerWidth;
+            var windowHeight = window.innerHeight;
+
+            // Calcula el ancho y alto del
+            var canvasWidth, canvasHeight;
+
+            if (windowWidth / windowHeight > aspectRatio) {
+                // Ventana más ancha, ajusta la altura
+                canvasHeight = windowHeight;
+                canvasWidth = windowHeight * aspectRatio;
+            } else {
+                // Ventana más alta o igual, ajusta el ancho
+                canvasWidth = windowWidth;
+                canvasHeight = windowWidth / aspectRatio;
+            }
+
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+        }
+
+        // Llama a la función de redimensionamiento cuando cambia el tamaño de la ventana
+        window.addEventListener("resize", resizeCanvas);
+
+        // Inicializa el tamaño del canvas y crea los girasoles
+        resizeCanvas();
+        createSunflowers();
+
+        // Inicia la animación
+        function animate() {
+            // Borra el canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Dibuja el fondo
+            ctx.fillStyle = "#87CEEB"; // Color cielo
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Dibuja las nubes en movimiento
+            drawCloud(cloudX1, 50, 80);
+            drawCloud(cloudX2, 100, 60);
+
+            // Dibuja los girasoles en el campo
+            drawSunflowers();
 
             // Actualiza las variables de animación
             cloudX1 += 0.2; // Mueve la primera nube hacia la derecha
@@ -123,60 +186,12 @@
             petalAngle += 0.005; // Hace que los pétalos giren suavemente
 
             // Solicita la próxima animación
-            requestAnimationFrame(draw);
-
-		// Dibuja los pétalos del girasol más cerca del centro
-		ctx.fillStyle = "#FFD700"; // Color amarillo
-		var numPetals = 18; // Número de pétalos
-		var angleIncrement = (Math.PI * 2) / numPetals;
-		var petalLength = 40; // Longitud de los pétalos
-		var petalWidth = 15; // Ancho de los pétalos
-
-		for (var i = 0; i < numPetals; i++) {
-    			var angle = i * angleIncrement + petalAngle;
-    			var cosAngle = Math.cos(angle);
-    			var sinAngle = Math.sin(angle);
-
-    			var x = 200 + cosAngle * petalLength;
-    			var y = 300 + sinAngle * petalLength;
-
-    			ctx.save();
-    			ctx.translate(x, y);
-    			ctx.rotate(angle);
-
-    			ctx.beginPath();
-    			ctx.moveTo(0, 0);
-    			ctx.quadraticCurveTo(-10, -20, 0, -40);
-    			ctx.quadraticCurveTo(10, -20, 0, 0);
-    			ctx.closePath();
-
-    			ctx.fillStyle = "#FFD700"; // Color amarillo
-    			ctx.fill();
-    			ctx.restore();
-		}
-
+            requestAnimationFrame(animate);
         }
 
-	    // Después de dibujar el girasol, agrega el código para la línea punteada
-		ctx.strokeStyle = "#228B22"; // Color verde para la línea punteada
-		ctx.lineWidth = 2; // Ancho de la línea
-		ctx.setLineDash([5, 5]); // Establece el estilo punteado (5 píxeles de guión, 5 píxeles de espacio)
-		
-		// Coordenadas de inicio y fin de la línea punteada (ajusta según tu diseño)
-		var startX = 200; // Coordenada X de inicio
-		var endX = 300; // Coordenada X de fin
-		var y = 300; // Coordenada Y de la línea
-		
-		// Dibuja la línea punteada
-		ctx.beginPath();
-		ctx.moveTo(startX, y);
-		ctx.lineTo(endX, y);
-		ctx.stroke();
-		
-		// Restaura el estilo de línea sólida
-		ctx.setLineDash([]);
+        animate();
 
-
+        // Función para dibujar una nube
         function drawCloud(x, y, radius) {
             ctx.fillStyle = "#FFFFFF"; // Color blanco
             ctx.beginPath();
@@ -186,54 +201,6 @@
             ctx.closePath();
             ctx.fill();
         }
-
-        function drawLeaf(startX, endX, x, y, direction) {
-            ctx.fillStyle = "#228B22"; // Color verde
-            ctx.beginPath();
-            ctx.moveTo(startX, y);
-            ctx.quadraticCurveTo(startX + 10, y + 30 * direction, x, y);
-            ctx.quadraticCurveTo(startX + 10, y + 20 * direction, startX, y);
-            ctx.fill();
-            ctx.closePath();
-        }
-	    
-        // Define la relación de aspecto deseada
-	var aspectRatio = 16 / 9; // Ejemplo: 16:9
-	
-	// Ajusta el tamaño del canvas para que ocupe la pantalla completa
-	function resizeCanvas() {
-	    var windowWidth = window.innerWidth;
-	    var windowHeight = window.innerHeight;
-	
-	    // Calcula el ancho y alto del canvas según la relación de aspecto
-	    var canvasWidth, canvasHeight;
-	
-	    if (windowWidth / windowHeight > aspectRatio) {
-	        // Ventana más ancha, ajusta la altura
-	        canvasHeight = windowHeight;
-	        canvasWidth = windowHeight * aspectRatio;
-	    } else {
-	        // Ventana más alta o igual, ajusta el ancho
-	        canvasWidth = windowWidth;
-	        canvasHeight = windowWidth / aspectRatio;
-	    }
-	
-	    // Establece el tamaño del canvas
-	    canvas.width = canvasWidth;
-	    canvas.height = canvasHeight;
-	}
-
-	// Llama a la función de redimensionamiento cuando cambia el tamaño de la ventana
-	window.addEventListener("resize", resizeCanvas);
-
-	
-	// Inicializa el tamaño del canvas
-	resizeCanvas();
-
-        // Inicia la animación
-        draw();
-
     </script>
 </body>
 </html>
-
