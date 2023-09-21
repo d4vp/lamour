@@ -157,6 +157,25 @@
 
         }
 
+	    // Después de dibujar el girasol, agrega el código para la línea punteada
+		ctx.strokeStyle = "#228B22"; // Color verde para la línea punteada
+		ctx.lineWidth = 2; // Ancho de la línea
+		ctx.setLineDash([5, 5]); // Establece el estilo punteado (5 píxeles de guión, 5 píxeles de espacio)
+		
+		// Coordenadas de inicio y fin de la línea punteada (ajusta según tu diseño)
+		var startX = 200; // Coordenada X de inicio
+		var endX = 300; // Coordenada X de fin
+		var y = 300; // Coordenada Y de la línea
+		
+		// Dibuja la línea punteada
+		ctx.beginPath();
+		ctx.moveTo(startX, y);
+		ctx.lineTo(endX, y);
+		ctx.stroke();
+		
+		// Restaura el estilo de línea sólida
+		ctx.setLineDash([]);
+
 
         function drawCloud(x, y, radius) {
             ctx.fillStyle = "#FFFFFF"; // Color blanco
@@ -207,43 +226,6 @@
 	// Llama a la función de redimensionamiento cuando cambia el tamaño de la ventana
 	window.addEventListener("resize", resizeCanvas);
 
-	function drawDottedLine(x1, y1, x2, y2) {
-	    // Define la longitud de cada punto
-	    var dotLength = 10;
-	
-	    // Define la posición inicial del lápiz
-	    var x = x1;
-	    var y = y1;
-	
-	    // Dibuja una línea punteada
-	    while (x < x2) {
-	        ctx.beginPath();
-	        ctx.moveTo(x, y);
-	        ctx.lineTo(x + dotLength, y);
-	        ctx.closePath();
-	        ctx.stroke();
-	        x += dotLength * 2;
-	    }
-	}
-	
-	// Define la función que dibuja el corazón a la derecha
-	function drawDottedHeart() {
-	    // Llama a la función que dibuja el corazón
-	    drawHeart();
-	
-	    // Llama a la función que dibuja la línea punteada
-	    drawDottedLine(canvas.width - 100, 300, canvas.width - 50, 300);
-	}
-	
-	// Define la función que dibuja el avión dibujando el corazón
-	function drawPlaneDrawingHeart() {
-	    // Llama a la función que dibuja el avión
-	    drawPlane();
-	
-	    // Llama a la función que dibuja el corazón a la derecha
-	    drawDottedHeart();
-	}
-
 	
 	// Inicializa el tamaño del canvas
 	resizeCanvas();
@@ -251,8 +233,6 @@
         // Inicia la animación
         draw();
 
-	// Dibuja el avión dibujando el corazón
-	drawPlaneDrawingHeart();
     </script>
 </body>
 </html>
