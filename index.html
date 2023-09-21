@@ -179,6 +179,17 @@
             ctx.closePath();
         }
       
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        // Llama a la función de redimensionamiento cuando cambia el tamaño de la ventana
+        window.addEventListener("resize", resizeCanvas);
+
+        // Inicializa el tamaño del canvas
+        resizeCanvas();
+
         // Inicia la animación
         draw();
     </script>
