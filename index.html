@@ -4,37 +4,35 @@
     <title>l'amour</title>
     
     <style>
-        /* Estilos para el canvas que ocupará la pantalla completa */
         canvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: ; /* Ajustar al tamaño completo de la ventana */
+            height: auto;
         }
-        /* Estilos para el control de audio */
+        
        audio {
-            position: fixed; /* Fija la posición del control de audio */
-            top: 10px; /* Ajusta la distancia desde la parte superior */
-            left: 50%; /* Centra horizontalmente */
-            transform: translateX(-50%); /* Centra horizontalmente */
-            background-color: rgba(255, 255, 255, 0.7); /* Fondo semi-transparente */
-            padding: 10px; /* Espaciado interior para mayor legibilidad */
-            border-radius: 5px; /* Bordes redondeados */
+            position: fixed; 
+            top: 10px; 
+            left: 50%; 
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            border-radius: 5px;
             z-index: 1;
         }
 
         section {
-            text-align: center; /* Centra el contenido horizontalmente */
-            font-size: 9pt; /* Tamaño de letra pequeño */
-            margin-top: 20px; /* Espacio superior */
+            text-align: center; 
+            font-size: 9pt; 
+            margin-top: 20px; 
         }
 
-        /* Estilos para el aviso de derechos de autor */
         .copyright {
-            font-size: 8pt; /* Tamaño de letra más pequeño para el aviso de derechos de autor */
-            color: #999; /* Color de texto gris */
-            margin-top: 10px; /* Espacio superior */
+            font-size: 8pt; 
+            color: #999; 
+            margin-top: 10px; 
         }
     </style>
 </head>
@@ -100,43 +98,11 @@
 
         var ctx = canvas.getContext("2d");
 
-        // Variables para la animación
-        var cloudX1 = 0; // Posición inicial de la primera nube
-        var cloudX2 = 200; // Posición inicial de la segunda nube
-        var leafY = 370; // Posición vertical inicial de la hoja
-        var leafDirection = 1; // Dirección de movimiento de la hoja
-        var petalAngle = 0; // Ángulo inicial de los pétalos
-
-        // Define la relación de aspecto deseada
-        var aspectRatio = 16 / 9; // Ejemplo: 16:9
-
-        // Ajusta el tamaño del canvas para que ocupe la pantalla completa
-        function resizeCanvas() {
-            var windowWidth = window.innerWidth;
-            var windowHeight = window.innerHeight;
-
-            // Calcula el ancho y alto del canvas según la relación de aspecto
-            var canvasWidth, canvasHeight;
-
-            if (windowWidth / windowHeight > aspectRatio) {
-                // Ventana más ancha, ajusta la altura
-                canvasHeight = windowHeight;
-                canvasWidth = windowHeight * aspectRatio;
-            } else {
-                // Ventana más alta o igual, ajusta el ancho
-                canvasWidth = windowWidth;
-                canvasHeight = windowWidth / aspectRatio;
-            }
-
-            canvas.width = canvasWidth;
-            canvas.height = canvasHeight;
-        }
-
-        // Llama a la función de redimensionamiento cuando cambia el tamaño de la ventana
-        window.addEventListener("resize", resizeCanvas);
-
-        // Canvas
-        resizeCanvas();
+        var cloudX1 = 0; 
+        var cloudX2 = 200; 
+        var leafY = 370;
+        var leafDirection = 1;
+        var petalAngle = 0; 
 
         // Girasol
         function drawSunflower(x, y) {
@@ -246,35 +212,34 @@
             drawSunflower(500);
 
             // Actualiza las variables de animación
-            cloudX1 += 0.2; // Mueve la primera nube hacia la derecha
-            cloudX2 += 0.3; // Mueve la segunda nube hacia la derecha
-            leafY += 0.2 * leafDirection; // Mueve la hoja arriba o abajo
+            cloudX1 += 0.2; 
+            cloudX2 += 0.3;
+            leafY += 0.2 * leafDirection; 
             if (leafY >= 390 || leafY <= 370) {
-                leafDirection *= -1; // Cambia la dirección de movimiento de la hoja
+                leafDirection *= -1; 
             }
-            petalAngle += 0.005; // Hace que los pétalos giren suavemente
+            petalAngle += 0.005; 
+            
 
-            // Solicita la próxima animación
             requestAnimationFrame(draw);
         }
 
-        // Define la relación de aspecto deseada
-        var aspectRatio = 16 / 9; // Ejemplo: 16:9
+        var aspectRatio = 16 / 9;
         
-        // Ajusta el tamaño del canvas para que ocupe la pantalla completa
+
+        // Ajusta el tamaño del canvas
         function resizeCanvas() {
            var windowWidth = window.innerWidth;
            var windowHeight = window.innerHeight;
         
-           // Calcula el ancho y alto del canvas según la relación de aspecto
            var canvasWidth, canvasHeight;
         
            if (windowWidth / windowHeight > aspectRatio) {
-               // Ventana más ancha, ajusta la altura
+            
                canvasHeight = windowHeight;
                canvasWidth = windowHeight * aspectRatio;
            } else {
-               // Ventana más alta o igual, ajusta el ancho
+            
                canvasWidth = windowWidth;
                canvasHeight = windowWidth / aspectRatio;
            }
@@ -283,12 +248,10 @@
            canvas.width = canvasWidth;
            canvas.height = canvasHeight;
         }
-
-        // Llama a la función de redimensionamiento cuando cambia el tamaño de la ventana
+        
         window.addEventListener("resize", resizeCanvas);
         
         
-        // Inicializa el tamaño del canvas
         resizeCanvas();
     
 
